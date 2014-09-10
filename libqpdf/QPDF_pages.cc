@@ -132,24 +132,7 @@ QPDF::insertPageobjToPage(QPDFObjectHandle const& obj, int pos,
                           bool check_duplicate)
 {
     QPDFObjGen og(obj.getObjGen());
-    if (check_duplicate)
-    {
-        if (! this->pageobj_to_pages_pos.insert(std::make_pair(og, pos)).second)
-        {
-            QTC::TC("qpdf", "QPDF duplicate page reference");
-            setLastObjectDescription("page " + QUtil::int_to_string(pos) +
-                                     " (numbered from zero)",
-                                     og.getObj(), og.getGen());
-            throw QPDFExc(qpdf_e_pages, this->file->getName(),
-                          this->last_object_description, 0,
-                          "duplicate page reference found;"
-                          " this would cause loss of data");
-        }
-    }
-    else
-    {
-      this->pageobj_to_pages_pos[og] = pos;
-    }
+    this->pageobj_to_pages_pos[og] = pos;
 }
 
 void
